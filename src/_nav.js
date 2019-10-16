@@ -7,8 +7,13 @@ export default {
     },
     {
       name: 'Users',
-      url: '/users',
-      icon: 'icon-user'
-    }
+      icon: 'icon-user',
+      children: [
+        {
+          name: 'Parents',
+          url: '/parents'
+        }
+      ]
+    },    
   ],
 };
