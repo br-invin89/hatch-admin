@@ -14,9 +14,9 @@ const routes = [
   { path: '/dashboard', name: 'Dashboard', component: Dashboard },
   { path: '/parents', exact: true,  name: 'Parents', component: Parents },
   { path: '/parents/create', exact: true, name: 'New Parent', component: NewParent },
-  { path: '/parents/:id', name: 'Parent Details', component: Parent },  
-  { path: '/children/create/:parentId', exact: true, name: 'New Child', component: NewChild },
-  { path: '/children/:parentId/:childId', name: 'Child Details', component: Child },  
+  { path: '/parents/:id', exact: true, name: 'Parent Details', component: Parent },  
+  { path: '/parents/:parentId/children/create', exact: true, name: 'New Child', component: NewChild },
+  { path: '/parents/:parentId/children/:childId', name: 'Child Details', component: Child },  
   { path: '/test', name: 'Test', component: Test },
 ];
 

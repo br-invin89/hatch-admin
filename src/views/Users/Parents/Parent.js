@@ -146,7 +146,7 @@ export default class Parent extends Component {
                         {userInfo.children.map((child, k) => (
                           <ListGroupItem key={k}>
                             <img src={child.image} style={{width: 80}} />
-                            <Link to={`/children/${child.parentId}/${child.childId}`}>
+                            <Link to={`/parents/${child.parentId}/children/${child.childId}`}>
                               <span>{child.name}</span>
                             </Link>                            
                             <Button size="sm" className="icon pull-right" color="danger" onClick={() => this.deleteChild(child.parentId, child.childId)}>
@@ -155,7 +155,7 @@ export default class Parent extends Component {
                           </ListGroupItem>
                         ))}
                       </ListGroup>
-                      <Button type="button" size="sm" color="primary" onClick={() => this.props.history.push(`/children/create/${parentId}`)}>
+                      <Button type="button" size="sm" color="primary" onClick={() => this.props.history.push(`/parents/${parentId}/children/create`)}>
                         <i className="fa fa-plus"></i> Add Children
                       </Button>
                     </FormGroup>
