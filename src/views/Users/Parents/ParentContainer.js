@@ -1,14 +1,14 @@
 import { connect } from 'react-redux'
 import Parent from './Parent'
 import { bindActionCreators } from 'redux'
-import * as ParentsActions from '../../../store/actions/parents'
+import * as UsersActions from '../../../store/actions/users'
 
 const mapStateToProps = state => ({
-  parents: state.parents || {}
+  users: state.users || {}
 })
 
 const mapDispatchToProps = dispatch => ({
-  parentsActions: bindActionCreators(ParentsActions, dispatch)
+  usersActions: bindActionCreators(UsersActions, dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Parent)

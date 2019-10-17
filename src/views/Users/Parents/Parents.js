@@ -1,51 +1,87 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { Badge, Card, CardBody, CardHeader, Col, Row, Table } from 'reactstrap';
+import { 
+  Card, CardBody, CardHeader, 
+  Badge, Button, Table, 
+  InputGroup, InputGroupAddon, Input, InputGroupText
+} from 'reactstrap';
+import Moment from 'react-moment';
 
 export default class Parents extends Component {
+  state = {
+    searchVal: ''
+  }
+
   componentDidMount() {
-    this.props.parentsActions.getParents()
+    this.props.usersActions.getParents()
   }
 
   render() {
-    const { parents } = this.props.parents
+    const { parents } = this.props.users
     // const userList = usersData.filter((user) => user.id < 10)
 
     return (
       <div className="animated fadeIn">
-        <Row>
-          <Col xl={6}>
-            <Card>
-              <CardHeader>
-                <i className="fa fa-align-justify"></i> Parents <small className="text-muted">all</small>
-              </CardHeader>
-              <CardBody>
-                <Table responsive hover>
-                  <thead>
-                    <tr>
-                      <th scope="col">id</th>
-                      <th scope="col">name</th>
-                      <th scope="col">registered</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {parents.map((parent, index) =>
-                      <ParentRow key={index} parent={parent}/>
-                    )}
-                  </tbody>
-                </Table>
-              </CardBody>
-            </Card>
-          </Col>
-        </Row>
+        <Card>
+          <CardHeader>
+            <div>
+              <i className="fa fa-align-justify"></i> Parents
+            </div>
+            <div className="pull-right">
+              <InputGroup className='sm'>
+                <Input placeholder='Search by name or phone number.' 
+                  value={this.state.searchVal} 
+                  onChange={e => this.setFormValue('searchVal', e.target.value) }
+                />
+                <InputGroupAddon onClick={this.doSearch} addonType="prepend" style={{ cursor: 'pointer' }}>Search</InputGroupAddon>
+              </InputGroup>                            
+            </div>
+          </CardHeader>
+          <CardBody>
+            <Table responsive hover>
+              <thead>
+                <tr>
+                  <th scope="col">No</th>
+                  <th scope="col">Name</th>
+                  <th scope="col" style={{width: 80}}>Avatar</th>
+                  <th scope="col">Email</th>
+                  <th scope="col">Phone</th>
+                  <th scope="col">Children</th>
+                  <th scope="col">Card Info</th>                      
+                  <th scope="col">Registered On</th>
+                  <th scope="col"></th>
+                </tr>
+              </thead>
+              <tbody>
+                {parents.map((user, index) =>
+                  <UserRow no={index+1} key={index} user={user} deleteParent={this.deleteParent}/>
+                )}
+              </tbody>
+            </Table>
+          </CardBody>
+        </Card>
       </div>
     )
   }
+
+  setFormValue = (name, val) => {
+    this.setState({ ...this.state, [name]: val})
+  }
+
+  doSearch = () => {
+    const { searchVal } = this.state
+    this.props.usersActions.searchParents({ searchVal })
+  }
+
+  deleteParent = (parentId) => {
+    // if (!confirm(`Are you sure to delete this parent?`)) return
+    this.props.usersActions.deleteParent({ parentId })
+  }
 }
 
-const ParentRow = (props) => {
-  const parent = props.parent
-  const parentLink = `/parents/${parent.id}`
+const UserRow = (props) => {
+  const user = props.user
+  const userLink = `/parents/${user.parentId}`
 
   const getBadge = (status) => {
     return status === 'Active' ? 'success' :
@@ -56,10 +92,32 @@ const ParentRow = (props) => {
   }
 
   return (
-    <tr key={parent.id.toString()}>
-      <th scope="row"><Link to={parentLink}>{parent.parentId}</Link></th>
-      <td><Link to={parentLink}>{parent.lastName}</Link></td>
-      <td>{parent.createdAt}</td>
+    <tr key={user.parentId.toString()}>
+      <th scope="row">{props.no}</th>
+      <td><Link to={userLink}>{user.lastName}</Link></td>
+      <td>
+        <img src={user.image} style={{width: '100%'}} />
+      </td>
+      <td>{user.email}</td>
+      <td>{user.phone}</td>
+      <td>
+        {user.children.map((child, i) => (
+          <p key={i}>
+            <img src={child.image} style={{width: 30}} />
+            <span>{child.name}</span>            
+          </p>
+        ))}
+      </td>
+      <td>
+        <span>Number: {user.card.number}, &nbsp;</span>
+        <span>CVC: {user.card.cvc}</span>
+      </td>
+      <td>
+        <Moment format='YY-M-D h:m'>{user.createdAt}</Moment>
+      </td>
+      <td>
+        <Button size="sm" className="icon mr-1" color="danger" onClick={() => props.deleteParent(user.parentId)}><i className="fa fa-close"></i></Button>
+      </td>
     </tr>
   )
 }

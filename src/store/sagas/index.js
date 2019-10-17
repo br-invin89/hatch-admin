@@ -1,8 +1,10 @@
 import { fork } from 'redux-saga/effects'
+import app from './app'
 import auth from './auth'
-import parents from './parents'
+import users from './users'
 
 export default function* root() {
+  yield fork(app)
   yield fork(auth)
-  yield fork(parents)
+  yield fork(users)
 }
