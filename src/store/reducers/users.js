@@ -3,7 +3,8 @@ import * as types from '../actionTypes'
 const initialState = {
   parents: [],
   parents2: [],
-  parent: null
+  parent: null,
+  child: null,
 }
 
 function parentsReducer(state = initialState, action) {
@@ -23,12 +24,22 @@ function parentsReducer(state = initialState, action) {
     case types.GET_PARENT_REQUEST:
       return {
         ...state,
-        parent: getParentDetail(action.payload.parentId, state.parents2)
+        parent: null
+      }
+    case types.GET_PARENT_SUCCESS:
+      return {
+        ...state,
+        parent: action.payload.parent
       }
     case types.SEARCH_PARENTS_REQUEST:      
       return {
         ...state,
         parents: doSearch(action.payload.searchVal, state.parents2)
+      }
+    case types.GET_CHILD_SUCCESS:
+      return {
+        ...state,
+        child: action.payload.child
       }
     default:
       return state
@@ -52,15 +63,4 @@ const doSearch = (searchVal, parents) => {
   })
 
   return searchedParents
-}
-
-const getParentDetail = ( parentId, parents ) => {
-  let parent = null
-  parents.map((parent_, k) => {
-    if (parentId == parent_.parentId) {
-      parent = parent_
-    }
-  })
-
-  return parent
 }

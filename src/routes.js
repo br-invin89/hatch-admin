@@ -4,6 +4,8 @@ const Dashboard = React.lazy(() => import('./views/Dashboard'));
 const Parents = React.lazy(() => import('./views/Users/Parents/ParentsContainer'));
 const Parent = React.lazy(() => import('./views/Users/Parents/ParentContainer'));
 const NewParent = React.lazy(() => import('./views/Users/Parents/NewParentContainer'));
+const Child = React.lazy(() => import('./views/Users/Children/ChildContainer'));
+const NewChild = React.lazy(() => import('./views/Users/Children/NewChildContainer'));
 const Test = React.lazy(() => import('./views/Test/Test'));
 
 // https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
@@ -13,6 +15,8 @@ const routes = [
   { path: '/parents', exact: true,  name: 'Parents', component: Parents },
   { path: '/parents/create', exact: true, name: 'New Parent', component: NewParent },
   { path: '/parents/:id', name: 'Parent Details', component: Parent },  
+  { path: '/children/create/:parentId', exact: true, name: 'New Child', component: NewChild },
+  { path: '/children/:parentId/:childId', name: 'Child Details', component: Child },  
   { path: '/test', name: 'Test', component: Test },
 ];
 

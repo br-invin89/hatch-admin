@@ -11,7 +11,7 @@ class MessageHandler extends React.Component {
     if (message != '') {
       setTimeout(() => {
         this.props.appActions.clearMessage()
-      }, 2500)
+      }, 5500)
     }
 
     return (

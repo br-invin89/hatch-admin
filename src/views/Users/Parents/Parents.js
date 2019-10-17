@@ -27,17 +27,28 @@ export default class Parents extends Component {
             <div>
               <i className="fa fa-align-justify"></i> Parents
             </div>
-            <div className="pull-right">
-              <InputGroup className='sm'>
-                <Input placeholder='Search by name or phone number.' 
-                  value={this.state.searchVal} 
-                  onChange={e => this.setFormValue('searchVal', e.target.value) }
-                />
-                <InputGroupAddon onClick={this.doSearch} addonType="prepend" style={{ cursor: 'pointer' }}>Search</InputGroupAddon>
-              </InputGroup>                            
+            <div>
+              <div className="pull-left">
+                <Button size="sm" color="primary" onClick={() => this.props.history.push('/parents/create')}>
+                  <i className="fa fa-plus mr-1"></i>Create New Parent
+                </Button>
+              </div>
+              <div className="pull-right">
+                <InputGroup size='sm'>
+                  <Input placeholder='Search by name or phone number.' 
+                    value={this.state.searchVal} 
+                    onChange={e => this.setFormValue('searchVal', e.target.value) }
+                    className="sm"
+                  />
+                  <InputGroupAddon onClick={this.doSearch} addonType="prepend" style={{ cursor: 'pointer' }}>Search</InputGroupAddon>
+                </InputGroup>                            
+              </div>
             </div>
           </CardHeader>
           <CardBody>
+            <div>
+              
+            </div>
             <Table responsive hover>
               <thead>
                 <tr>

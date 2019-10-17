@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import { 
   Card, CardBody, CardHeader, CardFooter,
   Col, Row, 
@@ -13,6 +14,16 @@ export default class Parent extends Component {
     userInfo: null
   }
 
+  componentWillReceiveProps(nextProps) {
+    const { parent } = nextProps.users
+    if (this.state.userInfo == null) {
+      this.setState({
+        ...this.state,
+        userInfo: parent
+      })
+    }
+  }
+
   componentDidMount() {
     const parentId = this.props.match.params.id
     this.props.usersActions.getParent({ parentId })
@@ -21,7 +32,7 @@ export default class Parent extends Component {
   render() {
     const parentId = this.props.match.params.id
     const { parents } = this.props.users
-    const userInfo = this.props.users.parent
+    const { userInfo } = this.state
 
     return (
       <div className="animated fadeIn">
@@ -135,14 +146,16 @@ export default class Parent extends Component {
                         {userInfo.children.map((child, k) => (
                           <ListGroupItem key={k}>
                             <img src={child.image} style={{width: 80}} />
-                            <span>{child.name}</span>
-                            <Button size="sm" className="icon pull-right" color="danger">
+                            <Link to={`/children/${child.parentId}/${child.childId}`}>
+                              <span>{child.name}</span>
+                            </Link>                            
+                            <Button size="sm" className="icon pull-right" color="danger" onClick={() => this.deleteChild(child.parentId, child.childId)}>
                               <i className="fa fa-close"></i>
                             </Button>
                           </ListGroupItem>
                         ))}
                       </ListGroup>
-                      <Button type="button" size="sm" color="primary">
+                      <Button type="button" size="sm" color="primary" onClick={() => this.props.history.push(`/children/create/${parentId}`)}>
                         <i className="fa fa-plus"></i> Add Children
                       </Button>
                     </FormGroup>
@@ -208,5 +221,11 @@ export default class Parent extends Component {
     const parentId = this.props.match.params.id
     this.props.usersActions.deleteParent({ parentId })
     this.props.history.push('/parents')
+  }
+
+  deleteChild = (parentId, childId) => {
+    this.props.usersActions.deleteChild({ parentId, childId })
+    const { userInfo } = this.state
+    // userInfo.children
   }
 }

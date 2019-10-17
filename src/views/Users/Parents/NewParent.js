@@ -34,7 +34,7 @@ export default class NewParent extends Component {
       <div className="animated fadeIn">
         <Card>          
           <CardHeader>
-            <strong><i className="icon-info pr-1"></i>New Product</strong>
+            <strong><i className="icon-info pr-1"></i>New Parent</strong>
           </CardHeader>
           <CardBody>
             <Form>
