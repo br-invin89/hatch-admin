@@ -13,11 +13,13 @@ export default class Sections extends React.Component {
     return (
       <div 
         style={{
-          width: '600px', height: "800px",
-          overflowY: 'auto', overflowX: 'hidden'
+          width: '600px'
         }}
       >
-        <Row>
+        <Row style={{
+          height: "760px",
+          overflowY: 'auto', overflowX: 'hidden'
+        }}>
         {sections.map((section, k) => (
           <div style={{ width: '100%' }} key={k} >
             <Section 
@@ -37,10 +39,10 @@ export default class Sections extends React.Component {
         </Row>
         <div>
           <Button type="submit" size="md" color="success" onClick={this.onSubmit}>
-            <i className="fa fa-refresh"></i> Refresh
+            <i className="fa fa-circle-o"></i> Submit
           </Button>
           <Button type="submit" size="md" className="pull-right" color="primary" onClick={this.onAddSection}>
-            <i className="fa fa-dot-circle-o"></i> Add Section
+            <i className="fa fa-plus"></i> Add Section
           </Button>
         </div>
       </div>
@@ -64,7 +66,7 @@ export default class Sections extends React.Component {
   }
 
   onSubmit = () => {
-
+    this.props.onSubmit()
   }
 }
 
@@ -142,7 +144,7 @@ class Section extends React.Component {
           }
           <div>
             <Button type="submit" size="sm" className="pull-right" color="primary" onClick={this.onAddElement}>
-              <i className="fa fa-dot-circle-o"></i> Add Element
+              <i className="fa fa-plus"></i> Add Element
             </Button>
           </div>
         </CardBody>        
@@ -421,8 +423,12 @@ class ElementContent extends React.Component {
       <Form>
         <FormGroup>
           <Label >Text</Label>
-          <textarea class="form-control" size="sm" onChange={e=>this.setState({...this.state, content: e.target.value})}
-          >{element.content}</textarea>
+          <textarea class="form-control" size="sm" 
+            value={this.state.content}
+            onChange={
+              e=>this.setState({...this.state, content: e.target.value})
+            }
+          ></textarea>
         </FormGroup>
       </Form>
     )

@@ -18,7 +18,7 @@ export default class EditPreview extends React.Component {
 const PreviewWrapper = (props) => (
   <div 
     style={{ 
-      width: 395, height: 872, position: 'relative',
+      width: '395px', height: '872px', position: 'relative',
       borderRadius: 20, backgroundColor: '#111',
       padding: '20px 10px 50px 10px',       
     }}

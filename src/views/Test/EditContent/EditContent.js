@@ -87,6 +87,7 @@ export default class EditContent extends React.Component {
                       onDeleteElement={this.onDeleteElement}
                       onAddElement={this.onAddElement}
                       onChangeElementContent={this.onChangeElementContent}
+                      onSubmit={this.onSubmit}
                     />
                   </TabPane>
                   <TabPane tabId="settings">
@@ -251,7 +252,9 @@ export default class EditContent extends React.Component {
     })
   }
 
-  saveContent = () => {
-    this.forceUpdate()
+  onSubmit = () => {
+    console.log('save content')
+    console.log('here is content.\n----------------------')
+    console.log(this.state.content)
   }
 }
