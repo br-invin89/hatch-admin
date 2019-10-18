@@ -2,24 +2,21 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { 
   Card, CardBody, CardHeader, 
-  Badge, Button, Table, 
-  InputGroup, InputGroupAddon, Input, InputGroupText
-} from 'reactstrap';
+  Button, Table, 
+  InputGroup, InputGroupAddon, Input} from 'reactstrap';
 import Moment from 'react-moment';
 
 export default class Parents extends Component {
   state = {
-    searchVal: ''
+    searchVal: '',
   }
 
   componentDidMount() {
     this.props.usersActions.getParents()
   }
 
-  render() {
-    const { parents } = this.props.users
-    // const userList = usersData.filter((user) => user.id < 10)
-
+  render() {    
+    const { parents } = this.props.users    
     return (
       <div className="animated fadeIn">
         <Card>
@@ -111,14 +108,6 @@ const UserRow = (props) => {
       </td>
       <td>{user.email}</td>
       <td>{user.phone}</td>
-      <td>
-        {user.children.map((child, i) => (
-          <p key={i}>
-            <img src={child.image} style={{width: 30}} />
-            <span>{child.name}</span>            
-          </p>
-        ))}
-      </td>
       <td>
         <span>Number: {user.card.number}, &nbsp;</span>
         <span>CVC: {user.card.cvc}</span>

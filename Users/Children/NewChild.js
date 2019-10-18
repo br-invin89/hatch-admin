@@ -3,7 +3,7 @@ import {
   Card, CardBody, CardHeader, CardFooter,
   Col, Row, 
 } from 'reactstrap';
-import Form from 'react-bootstrap/Form'
+import Form from 'react-bootstrap/FORM'
 import Button from 'react-bootstrap/Button'
 import ImagePicker from '../../../components/ImagePicker'
 

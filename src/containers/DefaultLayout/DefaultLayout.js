@@ -19,6 +19,7 @@ import navigation from '../../_nav';
 // routes config
 import routes from '../../routes';
 import MessageHandler from './MessageHandler'
+import LockingHandler from './LockingHandler'
 
 const DefaultAside = React.lazy(() => import('./DefaultAside'));
 const DefaultFooter = React.lazy(() => import('./DefaultFooter'));
@@ -47,11 +48,12 @@ class DefaultLayout extends Component {
             </Suspense>
             <AppSidebarFooter />
           </AppSidebar>
-          <main className="main">
-            <AppBreadcrumb appRoutes={routes} router={router}/>            
-            <Container fluid>                            
+          <main className="main" style={{position: 'relative'}}>
+            <AppBreadcrumb appRoutes={routes} router={router}/>
+            <Container fluid>
               <Suspense fallback={this.loading()}>
                 <MessageHandler />
+                <LockingHandler />
                 <Switch>
                   {routes.map((route, idx) => {
                     return route.component ? (

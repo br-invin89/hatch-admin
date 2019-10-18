@@ -2,7 +2,7 @@ import * as types from '../actionTypes'
 import { call, takeEvery, takeLatest, put } from 'redux-saga/effects'
 import * as usersService from '../../services/users'
 
-export default function* watcher() {
+export default function* watcher() {  
   yield takeLatest(types.GET_PARENTS_REQUEST, getParents)
   yield takeLatest(types.GET_PARENT_REQUEST, getParent)
   yield takeLatest(types.DELETE_PARENT_REQUEST, deleteParent)
@@ -12,30 +12,37 @@ export default function* watcher() {
   yield takeLatest(types.DELETE_CHILD_REQUEST, deleteChild)
   yield takeLatest(types.CREATE_CHILD_REQUEST, createChild)
   yield takeLatest(types.UPDATE_CHILD_REQUEST, updateChild)
+  
 }
 
 function* getParents(action) {
+  yield put({ type: types.SHOW_LOADING })
   try {
     const parents = yield call(usersService.getParents)
     yield put({ type: types.GET_PARENTS_SUCCESS, payload: { parents } })
   } catch(e) {
     yield put({ type: types.GET_PARENTS_FAILURE })
   }
+  yield put({ type: types.CLOSE_LOADING })
 }
 
 function* getParent(action) {
   const { parentId } = action.payload
+
+  yield put({ type: types.SHOW_LOADING })
   try {
     const parent = yield call(usersService.getParent, { parentId })
     yield put({ type: types.GET_PARENT_SUCCESS, payload: { parent } })
   } catch(e) {
     yield put({ type: types.GET_PARENT_FAILURE })
   }
+  yield put({ type: types.CLOSE_LOADING })
 }
 
 function* deleteParent(action) {
   const { parentId } = action.payload
 
+  yield put({ type: types.SHOW_LOADING })
   try {
     const parents = yield call(usersService.deleteParent, { parentId })
     yield put({ type: types.DELETE_PARENT_SUCCESS, payload: { parents } })
@@ -44,11 +51,13 @@ function* deleteParent(action) {
   } catch(e) {
     yield put({ type: types.DELETE_PARENT_FAILURE })
   }
+  yield put({ type: types.CLOSE_LOADING })
 }
 
 function* createParent(action) {
   const { userInfo } = action.payload
 
+  yield put({ type: types.SHOW_LOADING })
   try {
     yield call(usersService.createParent, { userInfo })
     yield put({ type: types.CREATE_PARENT_SUCCESS })
@@ -56,11 +65,13 @@ function* createParent(action) {
   } catch (e) {
     yield put ({ type: types.CREATE_PARENT_FAILURE })
   }
+  yield put({ type: types.CLOSE_LOADING })
 }
 
 function* updateParent(action) {
   const { userInfo } = action.payload
 
+  yield put({ type: types.SHOW_LOADING })
   try {
     yield call(usersService.updateParent, { userInfo })
     yield put({ type: types.UPDATE_PARENT_SUCCESS })
@@ -68,21 +79,26 @@ function* updateParent(action) {
   } catch (e) {
     yield put ({ type: types.UPDATE_PARENT_FAILURE })
   }
+  yield put({ type: types.CLOSE_LOADING })
 }
 
 function* getChild(action) {
   const { parentId, childId } = action.payload
+
+  yield put({ type: types.SHOW_LOADING })
   try {
     const child = yield call(usersService.getChild, { parentId, childId })
     yield put({ type: types.GET_CHILD_SUCCESS, payload: { child } })
   } catch(e) {
     yield put({ type: types.GET_CHILD_FAILURE })
   }
+  yield put({ type: types.CLOSE_LOADING })
 }
 
 function* deleteChild(action) {
   const { parentId, childId } = action.payload
 
+  yield put({ type: types.SHOW_LOADING })
   try {
     yield call(usersService.deleteChild, { parentId, childId })
     yield put({ type: types.DELETE_CHILD_SUCCESS })
@@ -90,11 +106,13 @@ function* deleteChild(action) {
   } catch(e) {
     yield put({ type: types.DELETE_CHILD_FAILURE })
   }
+  yield put({ type: types.CLOSE_LOADING })
 }
 
 function* createChild(action) {
   const { userInfo } = action.payload
 
+  yield put({ type: types.SHOW_LOADING })
   try {
     yield call(usersService.createChild, { userInfo })
     yield put({ type: types.CREATE_CHILD_SUCCESS })
@@ -104,11 +122,13 @@ function* createChild(action) {
   } catch (e) {
     yield put ({ type: types.CREATE_CHILD_FAILURE })
   }
+  yield put({ type: types.CLOSE_LOADING })
 }
 
 function* updateChild(action) {
   const { userInfo } = action.payload
 
+  yield put({ type: types.SHOW_LOADING })
   try {
     yield call(usersService.updateChild, { userInfo })
     yield put({ type: types.UPDATE_CHILD_SUCCESS })
@@ -116,4 +136,5 @@ function* updateChild(action) {
   } catch (e) {
     yield put ({ type: types.UPDATE_CHILD_FAILURE })
   }
+  yield put({ type: types.CLOSE_LOADING })
 }

@@ -7,6 +7,8 @@ export const LOGOUT_DONE = 'auth/logout-done'
 // message
 export const MESSAGE_APPEND = 'app/message-append'
 export const MESSAGE_CLEAR = 'app/message-clear'
+export const SHOW_LOADING = 'app/show-loading'
+export const CLOSE_LOADING = 'app/close-loading'
 
 // parents
 export const GET_PARENTS_REQUEST = 'parents/get-parents-request'

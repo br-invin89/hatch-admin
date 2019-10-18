@@ -2,7 +2,8 @@ import * as types from '../actionTypes'
 
 const initialState = {
   message: [],
-  messageType: 'info'
+  messageType: 'info',
+  loading: false
 }
 
 function appReducer( state = initialState, action ) {
@@ -18,6 +19,16 @@ function appReducer( state = initialState, action ) {
         ...state,
         message: '',
         messageType: 'info'
+      }
+    case types.SHOW_LOADING:
+      return {
+        ...state,
+        loading: true
+      }
+    case types.CLOSE_LOADING:
+      return {
+        ...state,
+        loading: false
       }
     default: 
       return state
