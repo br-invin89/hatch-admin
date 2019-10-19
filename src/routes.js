@@ -6,6 +6,8 @@ const Parent = React.lazy(() => import('./views/Users/Parents/ParentContainer'))
 const NewParent = React.lazy(() => import('./views/Users/Parents/NewParentContainer'));
 const Child = React.lazy(() => import('./views/Users/Children/ChildContainer'));
 const NewChild = React.lazy(() => import('./views/Users/Children/NewChildContainer'));
+const Contents = React.lazy(() => import('./views/Contents/ContentsContainer'));
+const EditContent = React.lazy(() => import('./views/Contents/EditContent/EditContentContainer'));
 const Test = React.lazy(() => import('./views/Test/Test'));
 
 // https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
@@ -17,6 +19,8 @@ const routes = [
   { path: '/parents/:id', exact: true, name: 'Parent Details', component: Parent },  
   { path: '/parents/:parentId/children/create', exact: true, name: 'New Child', component: NewChild },
   { path: '/parents/:parentId/children/:childId', name: 'Child Details', component: Child },  
+  { path: '/contents', exact: true,  name: 'Contents', component: Contents },
+  { path: '/contents/:contentId/edit-content', exact: true,  name: 'Edit Content', component: EditContent },
   { path: '/test', name: 'Test', component: Test },
 ];
 

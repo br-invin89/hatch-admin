@@ -18,9 +18,9 @@ export default class EditPreview extends React.Component {
 const PreviewWrapper = (props) => (
   <div 
     style={{ 
-      width: '395px', height: '872px', position: 'relative',
-      borderRadius: 20, backgroundColor: '#111',
-      padding: '20px 10px 50px 10px',       
+      width: '421px', height: '852px', position: 'relative',      
+      padding: '20px 23px 50px 23px',
+      backgroundImage: `url(${require('../../../assets/img/iphone-simulator.jpg')}`
     }}
   >
     <div 
@@ -28,9 +28,9 @@ const PreviewWrapper = (props) => (
         backgroundImage: `url(${props.bgImage})`,
         backgroundPosition: 'center center',
         backgroundSize: 'cover',
+        borderTopLeftRadius: 35, borderTopRightRadius: 35,
         overflowY: 'auto', 
         flex: 1, justifyContent: 'center', display: 'flex', flexDirection: 'column',
-        borderRadius: 15,
         width: '100%', height: '100%', padding: 20
       }}
     >

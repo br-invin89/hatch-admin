@@ -78,12 +78,13 @@ class Section extends React.Component {
 
   render() {
     const { style, elements } = this.props.section
+    console.log(elements)
 
     return (
       <Card size="sm">
         <CardHeader>
           <Nav tabs>
-            <NavItem>
+            <NavItem >
               <NavLink>
                 <strong>Section {this.props.sectionIndex+1}</strong>
               </NavLink>
@@ -121,7 +122,7 @@ class Section extends React.Component {
             </NavItem>
           </Nav>  
         </CardHeader>
-        <CardBody>
+        <CardBody style={{padding: 5}}>
           {this.state.tab=='style' &&
           <SectionStyle 
             style={style} 
@@ -170,7 +171,8 @@ class Section extends React.Component {
 
 class SectionStyle extends React.Component {
   state = {
-    style: {}
+    style: null,
+    isVerticalAlign: true
   }
 
   componentDidMount() {
@@ -179,42 +181,39 @@ class SectionStyle extends React.Component {
   }
 
   render() {
-    const { style } = this.state
+    const { style, isVerticalAlign } = this.state
     const { sectionIndex } = this.props
 
+    if (!style) return <></>
     return (
       <>
         <Form>
           <Row>
             <Col col="12">
               <FormGroup check inline>
-                <Input className="form-check-input"
-                  type="radio" id={`radio-valign${sectionIndex}`}
-                  checked={style.flexDirection=='column'}
-                  onClick={() => {
-                    let style_ = this.state.style
-                    style_.flexDirection = 'column'
-                    style_.justifyContent = 'space-between'
-                    this.setState({...this.state, style: style_})
+                <Input className="form-check-input" type="radio" 
+                  checked={isVerticalAlign}
+                  onChange={() => {
+                    let { style } = this.state
+                    style.flexDirection = 'column'
+                    style.justifyContent = 'space-between'
+                    this.setState({...this.state, style, isVerticalAlign: !this.state.isVerticalAlign})
                   }}
                 />
                 <Label className="form-check-label" check 
-                  htmlFor={`radio-valign${sectionIndex}`}
                 >Vertical align</Label>
               </FormGroup>
               <FormGroup check inline>
-                <Input className="form-check-input"
-                  type="radio" id={`radio-halign${sectionIndex}`}
-                  checked={style.flexDirection=='row'}
-                  onClick={() => {
-                    let style_ = this.state.style
-                    style_.flexDirection = 'row'
-                    style_.justifyContent = 'space-between'
-                    this.setState({...this.state, style: style_})
+                <Input className="form-check-input" type="radio" 
+                  checked={!isVerticalAlign}
+                  onChange={() => {
+                    let { style } = this.state
+                    style.flexDirection = 'row'
+                    style.justifyContent = 'space-between'
+                    this.setState({...this.state, style, isVerticalAlign: !this.state.isVerticalAlign})
                   }}
                 />
                 <Label className="form-check-label" check 
-                  htmlFor={`radio-halign${sectionIndex}`}
                 >Horizontal align</Label>
               </FormGroup>
             </Col>
@@ -223,7 +222,7 @@ class SectionStyle extends React.Component {
             <Col col="12">
               <FormGroup check inline>
                 <Label >margin top </Label>
-                <Input type="text" size="sm" value={style.marginTop}
+                <Input type="text" bsSize="sm" value={style.marginTop}
                   onChange={e => {
                     let style_ = this.state.style
                     style_.marginTop=parseInt(e.target.value)
@@ -264,7 +263,7 @@ class Element extends React.Component {
     return (
       <Card size="sm">
         <CardHeader>
-        <Nav tabs>
+          <Nav tabs className="small">
             <NavItem>
               <NavLink>
                 <strong>Element {this.props.elementIndex+1}</strong>
@@ -303,7 +302,7 @@ class Element extends React.Component {
             </NavItem>
           </Nav>
         </CardHeader>
-        <CardBody>
+        <CardBody style={{padding: 2}}>
           {this.state.tab=='style' && 
           <ElementStyle 
             style={element.style}
@@ -340,7 +339,7 @@ class Element extends React.Component {
 
 class ElementStyle extends React.Component {
   state = {
-    style: {}
+    style: null
   }
 
   componentDidMount() {
@@ -352,6 +351,7 @@ class ElementStyle extends React.Component {
     const { style } = this.state
     const { sectionIndex, elementIndex } = this.props
 
+    if (!style) return <></>
     return (
       <>
         <Form>
@@ -359,11 +359,11 @@ class ElementStyle extends React.Component {
             <Col col="12">
               <FormGroup check inline>
                 <Label >Font size </Label>
-                <Input type="text" size="sm" value={style.fontSize}
+                <Input type="text" bsSize="sm" value={style.fontSize}
                   onChange={e => {
-                    let style_  = this.state.style
-                    style_.fontSize=parseInt(e.target.value)
-                    this.setState({...this.state, style: style_ })
+                    let { style }  = this.state
+                    style.fontSize=parseInt(e.target.value)
+                    this.setState({...this.state, style })
                   }}
                   style={{width: 60}}
                 />
@@ -423,7 +423,7 @@ class ElementContent extends React.Component {
       <Form>
         <FormGroup>
           <Label >Text</Label>
-          <textarea class="form-control" size="sm" 
+          <textarea className="form-control" size="sm" 
             value={this.state.content}
             onChange={
               e=>this.setState({...this.state, content: e.target.value})

@@ -15,5 +15,15 @@ export default {
         }
       ]
     },    
+    {
+      name: 'Contents',
+      icon: 'icon-user',
+      children: [
+        {
+          name: 'Contents',
+          url: '/contents'
+        }
+      ]
+    },    
   ],
 };

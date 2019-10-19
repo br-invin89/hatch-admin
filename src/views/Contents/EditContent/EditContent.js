@@ -3,7 +3,8 @@ import {
   Row, Col, 
   TabPane, TabContent, 
   Nav, NavItem, NavLink,
-  Card, CardBody
+  Card, CardHeader, CardBody,
+  Button, ListGroup, ListGroupItem
 } from 'reactstrap'
 
 import EditPreview from './EditPreview'
@@ -17,17 +18,32 @@ import testData from '../../../services/coursesData'
 export default class EditContent extends React.Component {
   state = {
     settingTab: 'sections',
-    content: null
+    content: null,
+    screenIndex: 0,
+    contentId: null,
   }
 
   componentDidMount() {
-    const { content } = testData.courses[0]
+    const contentId = this.props.match.params.contentId
+    this.props.contentsActions.getContent({ contentId })
+  }
 
-    this.setState({
-      ...this.state,
-      content,
-      screenIndex: 0
-    })
+  componentWillReceiveProps(nextProps) {
+    const { content } = nextProps.contents
+    let content_ = nextProps.contents.content
+
+    if (this.state.content == null && content_) {
+      let contentId = content_.contentId
+      console.log(content_)
+      content_ = content_.content
+      
+
+      this.setState({
+        ...this.state,
+        content: content_,
+        contentId
+      })
+    }
   }
 
   render() {
@@ -42,13 +58,15 @@ export default class EditContent extends React.Component {
       <React.Fragment>
         <Row>
           <div className="pull-left mr-1">
+            {screen && 
             <Card>
-              <CardBody>
+              <CardBody>                
                 <EditPreview screen={screen} globalVars={globalVars} />
               </CardBody>
-            </Card>            
+            </Card>
+            }
           </div>
-          <div className="pull-right">
+          <div className="pull-left mr-1">
             <Card>
               <CardBody>
                 <Nav tabs>
@@ -75,6 +93,7 @@ export default class EditContent extends React.Component {
                 </Nav>
                 <TabContent activeTab={this.state.settingTab}>
                   <TabPane tabId="sections">
+                    {screen ?
                     <Sections 
                       screen={screen} 
                       globalVars={globalVars} 
@@ -88,7 +107,9 @@ export default class EditContent extends React.Component {
                       onAddElement={this.onAddElement}
                       onChangeElementContent={this.onChangeElementContent}
                       onSubmit={this.onSubmit}
-                    />
+                    />:
+                    <p>Create new screen now</p>
+                    }
                   </TabPane>
                   <TabPane tabId="settings">
                     <Settings globalVars={globalVars} />
@@ -97,9 +118,40 @@ export default class EditContent extends React.Component {
               </CardBody>
             </Card>
           </div>
-        </Row>
-        <Row>
-          <ScreenThumbs screens={screens} screenIndex={screenIndex} />
+          <div className="pull-right">
+            <Card>
+              <CardHeader>
+                <div className="pull-left mr-2">
+                  <h4>Select screen</h4>
+                </div>
+                <div className="pull-right">
+                  <Button type="button" size="sm" color="primary"
+                    onClick={this.onAddScreen}
+                  >
+                    <span><i className="fa fa-plus"></i> Add</span>
+                  </Button>
+                </div>
+              </CardHeader>
+              <CardBody>
+                {screens.length>0 &&
+                <ListGroup>
+                  {screens.map((screen, k) => (
+                    <ListGroupItem key={k}>
+                      <Button type="button" color="primary" outline
+                        active={screenIndex==k}
+                        onClick={() => {
+                          this.onClickScreen(k)
+                        }}
+                      >
+                        <span>Screen {k+1}</span>
+                      </Button>
+                    </ListGroupItem>
+                  ))}                  
+                </ListGroup>
+                }                
+              </CardBody>
+            </Card>
+          </div>
         </Row>
       </React.Fragment>
     )
@@ -252,9 +304,50 @@ export default class EditContent extends React.Component {
     })
   }
 
+  onAddScreen = () => {
+    let { screens } = this.state.content
+    screens.push({
+      var: {
+        showProgressBar: false,
+        modal: null
+      },
+      sections: [
+        {
+          style: {
+            flexDirection: 'column', justifyContent: 'space-between',
+            marginTop: 0, marginBottom: 0, marginLeft: 0, marginRight: 0,
+            paddingTop: 0, paddingBottom: 0, paddingLeft: 0, paddingRight: 0,
+            borderWidth: 0, borderColor: '#fff', borderStyle: 'solid',
+            borderRadius: 0, 
+          },
+          elements: [
+            {
+              type: 'text',
+              content: 'sample text!',
+              style: {
+                fontSize: 18, color: '#333', fontWeight: 'normal',
+                fontFamily: 'aria', textAlign: 'center', width: '100%'
+              }
+            }
+          ]
+        }
+      ]
+    })
+    const screenIndex = screens.length-1
+    this.setState({
+      ...this.state,
+      screenIndex
+    })
+  }
+
+  onClickScreen = (screenIndex) => {
+    this.setState({
+      screenIndex
+    })
+  }
+
   onSubmit = () => {
-    console.log('save content')
-    console.log('here is content.\n----------------------')
-    console.log(this.state.content)
+    const { contentId, content } = this.state    
+    this.props.contentsActions.updateContent({ contentId, content })
   }
 }

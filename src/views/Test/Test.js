@@ -13,13 +13,11 @@ import DecoupledEditor from '@ckeditor/ckeditor5-build-decoupled-document'
 */
 // import ClassicEditor2 from '@ckeditor/ckeditor5-build-classic'
 
-import EditContent from './EditContent/EditContentContainer'
 
 export default class Test extends React.Component {
   render() {
     return (
       <div className="animated fadeIn">
-        <EditContent />
       </div>
     )
   }

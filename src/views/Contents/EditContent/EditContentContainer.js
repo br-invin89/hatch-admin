@@ -1,14 +1,14 @@
 import { connect } from 'react-redux'
 import EditContent from './EditContent'
 import { bindActionCreators } from 'redux'
-import * as UsersActions from '../../../store/actions/users'
+import * as ContentsActions from '../../../store/actions/contents'
 
 const mapStateToProps = state => ({
-  users: state.users || {}
+  contents: state.contents || {}
 })
 
 const mapDispatchToProps = dispatch => ({
-  usersActions: bindActionCreators(UsersActions, dispatch)
+  contentsActions: bindActionCreators(ContentsActions, dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditContent)
